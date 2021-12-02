@@ -1,0 +1,12 @@
+CREATE DATABASE cursodb;
+
+USE cursodb;
+
+CREATE TABLE curso(
+    id          BIGINT         PRIMARY KEY  AUTO_INCREMENT,
+    nome        VARCHAR(50)    NOT NULL,
+    descricao   VARCHAR(100),
+    ativo       CHAR(1)        NOT NULL,
+    inicio      DATETIME       NOT NULL,
+    termino     DATETIME       NOT NULL
+);
