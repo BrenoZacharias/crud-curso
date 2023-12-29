@@ -20,10 +20,8 @@ public class CreditosBoundary extends Tela{
         });
 
         panCreditos.getChildren().addAll(
-                new Label("Faculdade de Tecnologia da Zona Leste"),
-                new Label("Luciano Oliveira - Coordenação"),
-                new Label("Antonio Carvalho - Professor de POO"),
-                new Label("Leandro Colevatti - Professor de Banco de Dados"),
+                new Label("Linkedin: https://www.linkedin.com/in/breno-marcondes/"),
+                new Label("GitHub: https://github.com/BrenoZacharias"),
                 btnCurso
 
         );

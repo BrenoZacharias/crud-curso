@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CursoDAO implements ICursoDAO {
-    private static final String URIDB = "jdbc:mariadb://127.0.0.1:3306/cursodb";
+    private static final String URIDB = "jdbc:mariadb://localhost:3307/cursodb";
     private static final String USUARIO = "root";
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "m0r20DBQ5)";
 
     public CursoDAO() {
         try{
