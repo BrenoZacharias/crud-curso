@@ -154,7 +154,6 @@ public class CursoBoundary extends Tela{
 
         btnSalvar.setOnAction( (e) -> {
             control.salvar();
-            new Alert(Alert.AlertType.INFORMATION, "Curso salvo com sucesso").showAndWait();
         });
 
         btnLimparCampos.setOnAction( (e) -> {

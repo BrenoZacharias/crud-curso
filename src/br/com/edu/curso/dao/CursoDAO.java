@@ -39,9 +39,39 @@ public class CursoDAO implements ICursoDAO {
             stmt.executeUpdate();
             stmt.close();
             con.close();
+        } catch (SQLIntegrityConstraintViolationException e) {
+//            if (e.getMessage().contains("Duplicate entry")
+//            && (e.getMessage().contains("PRIMARY"))) {
+//                System.err.print("A chave primária não pode ser duplicada");
+//            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    @Override
+    public Curso pesquisar(Long id) {
+        Curso curso = new Curso();
+        try {
+            Connection con = getConnection();
+            String sql = "SELECT * FROM curso WHERE id = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){
+                curso.setId(rs.getLong("id"));
+                curso.setNome(rs.getString("nome"));
+                curso.setAtivo(transformaStringEmBoolean(rs.getString("ativo")));
+                curso.setDescricao(rs.getString("descricao"));
+                curso.setInicio(rs.getTimestamp("inicio").toLocalDateTime());
+                curso.setTermino(rs.getTimestamp("termino").toLocalDateTime());
+            }
+            stmt.close();
+            con.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return curso;
     }
 
     @Override

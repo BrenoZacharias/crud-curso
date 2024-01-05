@@ -10,6 +10,20 @@ public class Curso {
     private LocalDateTime inicio;
     private LocalDateTime termino;
 
+    public Curso() {
+        super();
+    }
+
+    public Curso(long id, String nome, String descricao, boolean ativo, LocalDateTime inicio, LocalDateTime termino) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.ativo = ativo;
+        this.inicio = inicio;
+        this.termino = termino;
+    }
+
+
     public long getId() {
         return id;
     }

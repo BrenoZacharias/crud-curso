@@ -6,8 +6,10 @@ import br.com.edu.curso.entity.Curso;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +32,47 @@ public class CursoControl {
     }
 
     public void adicionar() {
-        cursosObservable.clear();
-        Curso curso = toEntity();
-        iCursoDAO.adicionar(curso);
-        limparCampos();
-        cursosObservable.addAll(iCursoDAO.pesquisarTodos());
+        boolean isCamposValidos = validarCampos();
+        if (isCamposValidos) {
+            cursosObservable.clear();
+            Curso curso = toEntity();
+            iCursoDAO.adicionar(curso);
+            limparCampos();
+            System.out.println(inicio);
+            System.out.println(inicio.get());
+            System.out.println(inicio.getValue());
+            cursosObservable.addAll(iCursoDAO.pesquisarTodos());
+        }
+
+    }
+
+    private boolean validarCampos() {
+        String [] camposInvalidos = {"", "", ""};
+        int cont = 0;
+        if(nome.get() == ""){
+            camposInvalidos[cont] = "nome";
+            cont ++;
+        }
+        if(inicio.get() == null){
+            camposInvalidos[cont] = "inicio";
+            cont ++;
+        }
+        if(termino.get() == null) {
+            camposInvalidos[cont] = "termino";
+            cont++;
+        }
+        if(!camposInvalidos[0].equals("")){
+            String textoAlerta = "O campo 'nome' deve conter um nome de curso \n" +
+                    "Os campos de data devem ser passado como no exemplo a seguir: '03/01/2024 19:07' \n" +
+                    "Campo(s) inválido(s):\n";
+            for(int i = 0; i < cont;i ++) {
+                textoAlerta = textoAlerta + camposInvalidos[i] + "\n";
+            }
+            new Alert(Alert.AlertType.ERROR, textoAlerta).showAndWait();
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void limparCampos() {
@@ -56,15 +94,19 @@ public class CursoControl {
     }
 
     public void salvar() {
-        cursosObservable.clear();
-        Curso curso = toEntity();
-        if (curso.getId() == 0) {
-            iCursoDAO.adicionar( curso );
-        } else{
-            iCursoDAO.atualizar( id.get(), curso );
+        boolean isCamposValidos = validarCampos();
+        if (isCamposValidos) {
+            cursosObservable.clear();
+            Curso curso = toEntity();
+            if (curso.getId() == 0) {
+                iCursoDAO.adicionar(curso);
+            } else {
+                iCursoDAO.atualizar(id.get(), curso);
+            }
+            limparCampos();
+            cursosObservable.addAll(iCursoDAO.pesquisarTodos());
+            new Alert(Alert.AlertType.INFORMATION, "Curso salvo com sucesso").showAndWait();
         }
-        limparCampos();
-        cursosObservable.addAll(iCursoDAO.pesquisarTodos());
     }
 
     private Curso toEntity() {
@@ -85,12 +127,15 @@ public class CursoControl {
     }
 
     public void fromEntity(Curso curso){
-        id.set(curso.getId());
-        nome.set(curso.getNome());
-        descricao.set(curso.getDescricao());
-        ativo.set(curso.isAtivo());
-        inicio.set(curso.getInicio());
-        termino.set(curso.getTermino());
+        try {
+            id.set(curso.getId());
+            nome.set(curso.getNome());
+            descricao.set(curso.getDescricao());
+            ativo.set(curso.isAtivo());
+            inicio.set(curso.getInicio());
+            termino.set(curso.getTermino());
+        } catch (NullPointerException e){}
+
     }
 
     public ObservableList<Curso> getLista() { return cursosObservable;}

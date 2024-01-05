@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface ICursoDAO {
     void adicionar (Curso c);
+    Curso pesquisar(Long id);
     List<Curso> pesquisarPorNome(String nome);
     void remover(long id);
     void atualizar(long id, Curso c);
