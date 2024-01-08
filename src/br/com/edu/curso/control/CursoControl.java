@@ -38,9 +38,6 @@ public class CursoControl {
             Curso curso = toEntity();
             iCursoDAO.adicionar(curso);
             limparCampos();
-            System.out.println(inicio);
-            System.out.println(inicio.get());
-            System.out.println(inicio.getValue());
             cursosObservable.addAll(iCursoDAO.pesquisarTodos());
         }
 
